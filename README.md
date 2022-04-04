@@ -11,7 +11,7 @@ As the OAuth is handled on the backend, the user does not have to worry about th
 2. [Create OAuth Client ID Credentials](https://developers.google.com/workspace/guides/create-credentials#oauth-client-id)
   - The "Authorized Redirect URL" should be set to http://localhost:8000/ (or match PORT specified in ./api/api.py)
   - The generated credentials.json file should be placed in ./api/
-**Windows**
+<br/>**Windows**
 ```
 $ cd api
 $ python -m venv venv
@@ -21,7 +21,7 @@ $ pip install --upgrade google-api-python-client google-auth-httplib2 google-aut
 $ cd ..
 ```
 ## Running the Project
-**Windows**
+**Windows**<br/>
 terminal 1 - backend
 ```
 $ npm run start-api
