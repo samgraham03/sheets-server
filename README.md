@@ -8,6 +8,7 @@ As the OAuth is handled on the backend, the user does not have to worry about th
 
 ## Setting up the Project
 1. [Create a Google Cloud Project](https://developers.google.com/workspace/guides/create-project)
+  - The user should authorize their google account
 2. [Create OAuth Client ID Credentials](https://developers.google.com/workspace/guides/create-credentials#oauth-client-id)
   - The "Authorized Redirect URL" should be set to http://localhost:8000/ (or match PORT specified in ./api/api.py)
   - The generated credentials.json file should be placed in ./api/
