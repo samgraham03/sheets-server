@@ -40,6 +40,9 @@ function App() {
   }
 
   const getSheetId = (url) => {
+    // Google spreadsheet urls generally take form:
+    // https://docs.google.com/spreadsheets/d<sheetId>/edit#gid=0
+    // Here sheetId is isolated using regex
     try {
       new URL(url); // Is a URL ?
       try {
