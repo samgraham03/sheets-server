@@ -1,6 +1,5 @@
 from __future__ import print_function
-import time
-from flask import Flask
+from flask import Flask, request
 
 import os.path
 
@@ -15,7 +14,8 @@ SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly']
 
 # The ID and range of a sample spreadsheet.
 SAMPLE_SPREADSHEET_ID = '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms'
-SAMPLE_RANGE_NAME = 'Class Data!A2:E'
+# SAMPLE_RANGE_NAME = 'Class Data!A2:E'
+SAMPLE_RANGE_NAME = 'A1:C'
 
 CREDENTIALS_DIR = os.path.dirname(os.path.realpath(__file__)) + '\\' + 'credentials.json'
 TOKEN_DIR = os.path.dirname(os.path.realpath(__file__)) + '\\' + 'token.json'
@@ -52,8 +52,10 @@ def authorize():
     return {'authorized': os.path.exists(TOKEN_DIR)}
 
 
-@app.route('/fetchData')
+@app.route('/fetchData', methods=["POST"], strict_slashes=False)
 def fetch_data():
+    sheetId = request.json['sheetId']
+    print(sheetId)
     creds = get_creds()
     if creds == None:
         return {'fetchData': 'Not Authorized'}
@@ -61,18 +63,12 @@ def fetch_data():
         try:
             service = build('sheets', 'v4', credentials=creds)
             sheet = service.spreadsheets()
-            result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID, range=SAMPLE_RANGE_NAME).execute()
+            # result = sheet.values().get(spreadsheetId=SAMPLE_SPREADSHEET_ID, range=SAMPLE_RANGE_NAME).execute()
+            result = sheet.values().get(spreadsheetId=sheetId, range=SAMPLE_RANGE_NAME).execute()
             values = result.get('values', [])
-            # if not values:
-            #     print('No data found.')
-            #     return
-            # print('Name, Major:')
-            # for row in values:
-            #     print('%s, %s' % (row[0], row[4]))
             return {'fetchData': values}
         except HttpError as err:
-            # print(err)
-            return {'fetchData': 'HTTP Error: ' + err}
+            return {'fetchData': str(err)}
 
 def get_creds():
     creds = None

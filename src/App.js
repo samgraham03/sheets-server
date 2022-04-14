@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   const [authorized, setAuthorized] = useState(false);
   const [oAuthData, setOAuthData] = useState(null);
-  const [sheetURL, setSheetURL] = useState('Sheet URL');
+  const [sheetURL, setSheetURL] = useState('');
   const [invalidURL, setInvalidURL] = useState(false);
 
   useEffect(() => {
@@ -17,42 +17,37 @@ function App() {
       .catch(err => console.log(err));
   }, []);
 
-  // const fetchData = () => {
-  //   fetch('/fetchData')
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setOAuthData(data.fetchData);
-  //     })
-  //     .catch(err => console.log(err));
-  // }
-
   const fetchData = (url) => {
-    let sheetID = getSheetID(url);
-    if (sheetID === null) {
+    let sheetId = getSheetId(url);
+    if (sheetId === null) {
       setInvalidURL(true);
     }
     else {
-      // TODO: pass back sheetID
-
-      fetch('/fetchData')
+      fetch('/fetchData', {
+          'method':'POST',
+          headers : {
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify({sheetId})
+        })
         .then(res => res.json())
         .then(data => {
           setOAuthData(data.fetchData);
         })
         .catch(err => console.log(err));
     }
-    console.log(sheetID);
+    console.log(sheetId);
   }
 
-  const getSheetID = (url) => {
+  const getSheetId = (url) => {
     try {
-      new URL(url); // not a URL
+      new URL(url); // Is a URL ?
       try {
-        return url.match(/.*\/d\/(.*)\//)[1]; // Starts with "d/" ends with '/'
+        return url.match(/.*\/d\/(.*)\//)[1]; // Starts with "d/" ends with '/' ?
       }
       catch {
         try {
-          return url.match(/d\/(.+?)$/)[1]; // Starts with "d/" ends at line end
+          return url.match(/d\/(.+?)$/)[1]; // Starts with "d/" ends at line end ?
         }
         catch {
           return null;
@@ -99,6 +94,7 @@ function App() {
                 <input
                   type="text"
                   value={sheetURL}
+                  placeholder='Enter spreadsheet URL'
                   name="Sheet URL"
                   onChange={(e) => {setSheetURL(e.target.value); setInvalidURL(false);}}
                 />
