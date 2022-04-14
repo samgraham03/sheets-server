@@ -105,10 +105,8 @@ function App() {
             {invalidURL && (<>INVALID URL</>)}
           </>
         )}
-
-        <br></br>
-        OAuth Data:
-        <p>{oAuthData}</p>
+        <><br />Fetch Data:</>
+        <p style={{marginTop: 0}}>{oAuthData}</p>
       </header>
     </div>
   );
