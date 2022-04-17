@@ -20,6 +20,7 @@ venv
 .env.production.local
 credentials.json
 token.json
+api_key.json
 .env
 __pycache__
 

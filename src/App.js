@@ -26,23 +26,24 @@ function App() {
         {authorized && (
           <>
             <button onClick={() => deauthorize(setAuthorized)}>Deauthorize</button>
-            <form onSubmit={(e) => {e.preventDefault(); fetchData(sheetURL, setData, setInvalidURL);}}>
-              <label>
-                <input
-                  type="text"
-                  value={sheetURL}
-                  placeholder='Enter spreadsheet URL'
-                  name="Sheet URL"
-                  onChange={(e) => {setSheetURL(e.target.value); setInvalidURL(false);}}
-                />
-              </label>
-              <input type="submit" value="Fetch Data" />
-            </form>
-
-            {invalidURL && (<>INVALID URL</>)}
           </>
         )}
-        <><br />Fetch Data:</>
+
+        <form onSubmit={(e) => {e.preventDefault(); fetchData(sheetURL, setData, setInvalidURL);}}>
+          <label>
+            <input
+              type="text"
+              value={sheetURL}
+              placeholder='Enter spreadsheet URL'
+              name="Sheet URL"
+              onChange={(e) => {setSheetURL(e.target.value); setInvalidURL(false);}}
+            />
+          </label>
+          <input type="submit" value="Fetch Data" />
+        </form>
+
+        {invalidURL && (<>INVALID URL</>)}
+        <><br />Data:</>
         <p style={{marginTop: 0}}>{data}</p>
       </header>
     </div>
